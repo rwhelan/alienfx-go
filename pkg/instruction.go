@@ -4,16 +4,16 @@ import (
 	"encoding/binary"
 )
 
-type InstrustionType uint8
+type InstructionType uint8
 
 const (
-	COLOR_CMD InstrustionType = iota
-	FLASH_CMD
-	MORPH_CMD
+	COLOR InstructionType = iota
+	FLASH
+	MORPH
 )
 
-type Instrustion struct {
-	Type     InstrustionType
+type Instruction struct {
+	Type     InstructionType
 	Duration uint16
 	Tempo    uint16
 	Red      uint8
@@ -21,7 +21,7 @@ type Instrustion struct {
 	Green    uint8
 }
 
-func (inst *Instrustion) Serialize() *[8]byte {
+func (inst *Instruction) Serialize() []byte {
 	b := [8]byte{}
 
 	b[0] = byte(inst.Type)
@@ -32,5 +32,11 @@ func (inst *Instrustion) Serialize() *[8]byte {
 	binary.BigEndian.PutUint16(b[1:3], inst.Duration)
 	binary.BigEndian.PutUint16(b[3:5], inst.Tempo)
 
-	return &b
+	return b[:]
+}
+
+type InstructionSet []Instruction
+
+func (instSet *InstructionSet) Serialize() []byte {
+	instHeader := []byte{0x03, 0x24}
 }
