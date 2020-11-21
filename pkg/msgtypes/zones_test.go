@@ -1,4 +1,4 @@
-package alienfx
+package msgtypes
 
 import (
 	"testing"

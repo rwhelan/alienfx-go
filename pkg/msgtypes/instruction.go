@@ -1,4 +1,4 @@
-package alienfx
+package msgtypes
 
 import (
 	"encoding/binary"
@@ -37,6 +37,31 @@ func (inst *Instruction) Serialize() []byte {
 
 type InstructionSet []Instruction
 
-func (instSet *InstructionSet) Serialize() []byte {
+func (instSet *InstructionSet) Serialize() [][]byte {
 	instHeader := []byte{0x03, 0x24}
+
+	count := 3 - (len(*instSet) % 3)
+	batches := make([][]Instruction, 0, count)
+	b := make([][]byte, count)
+
+	for i := 0; i < len(*instSet); i += 3 {
+		j := i + 3
+		if j > len(*instSet) {
+			j = len(*instSet)
+		}
+
+		batches = append(batches, []Instruction(*instSet)[i:j])
+	}
+
+	for i, set := range batches {
+		for _, subset := range set {
+			b[i] = append(b[i], subset.Serialize()...)
+		}
+	}
+
+	for i := range b {
+		b[i] = pad(append(instHeader, b[i]...))
+	}
+
+	return b
 }

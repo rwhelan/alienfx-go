@@ -1,4 +1,4 @@
-package alienfx
+package msgtypes
 
 const (
 	R10_HEAD ZoneID = 0

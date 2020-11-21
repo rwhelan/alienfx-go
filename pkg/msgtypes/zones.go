@@ -1,4 +1,4 @@
-package alienfx
+package msgtypes
 
 type ZoneID uint8
 
