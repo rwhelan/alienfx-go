@@ -2,6 +2,7 @@ package msgtypes
 
 import (
 	"encoding/binary"
+	"math"
 )
 
 type InstructionType uint8
@@ -40,7 +41,7 @@ type InstructionSet []Instruction
 func (instSet *InstructionSet) Serialize() [][]byte {
 	instHeader := []byte{0x03, 0x24}
 
-	count := 3 - (len(*instSet) % 3)
+	count := int(math.Ceil(float64(len(*instSet)) / 3))
 	batches := make([][]Instruction, 0, count)
 	b := make([][]byte, count)
 
