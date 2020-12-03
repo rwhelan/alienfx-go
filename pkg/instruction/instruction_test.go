@@ -1,4 +1,4 @@
-package msgtypes
+package instruction
 
 import (
 	"testing"

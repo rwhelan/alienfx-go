@@ -1,4 +1,4 @@
-package msgtypes
+package zone
 
 import (
 	"testing"
@@ -90,5 +90,18 @@ func TestZonesSerialize(t *testing.T) {
 				t.Fatalf("Failed test \"%s\" (-want +got):\n%s", tt.name, diff)
 			}
 		})
+	}
+}
+
+func TestZonesAdd(t *testing.T) {
+	zs := ZoneSelect{
+		ZoneID(0),
+		ZoneID(1),
+	}
+
+	zs.Add(42)
+
+	if zs[2] != 42 {
+		t.Fatalf("Failed Add() Got %d; Expected 42", zs[2])
 	}
 }

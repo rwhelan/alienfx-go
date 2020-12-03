@@ -1,8 +1,10 @@
-package msgtypes
+package instruction
 
 import (
 	"encoding/binary"
 	"math"
+
+	"github.com/rwhelan/alienfx-go/internal"
 )
 
 type InstructionType uint8
@@ -61,8 +63,12 @@ func (instSet *InstructionSet) Serialize() [][]byte {
 	}
 
 	for i := range b {
-		b[i] = pad(append(instHeader, b[i]...))
+		b[i] = internal.Pad(append(instHeader, b[i]...))
 	}
 
 	return b
+}
+
+func (instSet *InstructionSet) Add(i Instruction) {
+	*instSet = append(*instSet, i)
 }

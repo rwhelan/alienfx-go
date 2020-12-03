@@ -1,4 +1,12 @@
-package msgtypes
+package zone
+
+import "github.com/rwhelan/alienfx-go/internal"
+
+const (
+	R10_HEAD ZoneID = 0
+	R10_RING ZoneID = 1
+	R10_LOGO ZoneID = 3
+)
 
 type ZoneID uint8
 
@@ -15,5 +23,9 @@ func (z *ZoneSelect) Serialize() []byte {
 		b[i+1] = byte(zids[i])
 	}
 
-	return pad(append(zoneSelectHeader, b...))
+	return internal.Pad(append(zoneSelectHeader, b...))
+}
+
+func (z *ZoneSelect) Add(zoneID ZoneID) {
+	*z = append(*z, zoneID)
 }
